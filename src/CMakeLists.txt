@@ -1,5 +1,19 @@
-add_executable(main main.c)
-target_link_libraries(main
-                      GL
-                      GLU
-                      glut)
+find_package(GLEW REQUIRED)
+
+file(GLOB_RECURSE HEADERS ../include/*.h)
+
+set(ALL_LIBS
+	${OPENGL_LIBRARY}
+	glfw
+	${GLEW_LIBRARIES}
+)
+
+add_executable(main
+               utils.c
+               init.c
+               game.c
+               main.c
+               ${HEADERS}
+)
+target_include_directories(main PUBLIC ../include)
+target_link_libraries(main ${ALL_LIBS})

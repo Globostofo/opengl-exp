@@ -21,7 +21,7 @@ int init_glfw()
 
 GLFWwindow *create_window()
 {
-    GLFWwindow *window = glfwCreateWindow(1080, 720, "Test OpenGL", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(800, 600, "Test OpenGL", NULL, NULL);
     if (window == NULL)
     {
         handle_glfw_error("glfwCreateWindow");

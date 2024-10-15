@@ -1,3 +1,4 @@
+find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
 file(GLOB_RECURSE HEADERS ../include/*.h)
@@ -9,6 +10,7 @@ set(ALL_LIBS
 )
 
 add_executable(main
+               load_shader.c
                utils.c
                init.c
                game.c

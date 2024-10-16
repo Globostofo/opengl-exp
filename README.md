@@ -1,7 +1,7 @@
 # Experimentations with OpenGL in C
 
 Just some basic tests with OpenGL using the *C programming language*.  
-Inspired by <https://www.opengl-tutorial.org/fr/beginners-tutorials/>.
+Inspired by <https://www.opengl-tutorial.org/beginners-tutorials/>.
 
 ## Linux
 

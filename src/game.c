@@ -17,7 +17,7 @@ void play(GLFWwindow *window)
 	glBindVertexArray(VertexArrayID);
 
 	// Create and compile our GLSL program from the shaders
-    GLuint programID = LoadShaders("../res/shaders/vertex_shader.vert", "../res/shaders/fragment_shader.frag");
+    GLuint programID = LoadShaders("res/shaders/vertex_shader.vert", "res/shaders/fragment_shader.frag");
     
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);

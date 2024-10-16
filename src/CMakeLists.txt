@@ -1,7 +1,7 @@
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
-file(GLOB_RECURSE HEADERS ../include/*.h)
+file(GLOB_RECURSE HEADERS ${INCLUDE_DIRECTORY}/*.h)
 
 set(ALL_LIBS
 	${OPENGL_LIBRARY}
@@ -17,5 +17,5 @@ add_executable(main
                main.c
                ${HEADERS}
 )
-target_include_directories(main PUBLIC ../include)
+target_include_directories(main PUBLIC ${INCLUDE_DIRECTORY})
 target_link_libraries(main ${ALL_LIBS})

@@ -10,4 +10,6 @@ file(COPY res DESTINATION "${CMAKE_BINARY_DIR}")
 
 set(INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
+add_subdirectory(external/cglm)
+
 add_subdirectory(src)

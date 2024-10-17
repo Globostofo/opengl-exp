@@ -7,6 +7,7 @@ set(ALL_LIBS
 	${OPENGL_LIBRARY}
 	glfw
 	${GLEW_LIBRARIES}
+    cglm
 )
 
 add_executable(main

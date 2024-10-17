@@ -14,6 +14,12 @@ Firstly, you need to install the different packages.
 sudo apt install -y cmake make g++ libx11-dev libgl1-mesa-dev libglu1-mesa-dev libxrandr-dev libxext-dev
 ```
 
+> **Note:** The project uses [cglm](https://github.com/recp/cglm) for graphics maths (vectors, matrixes). The dependency is statically compiled with CMake, you just need to init the git submodule with :
+
+```sh
+git submodule update --init --recursive
+```
+
 ### Compilation
 
 You can compile the project by running the following commands :

@@ -19,4 +19,4 @@ add_executable(main
                ${HEADERS}
 )
 target_include_directories(main PUBLIC ${INCLUDE_DIRECTORY})
-target_link_libraries(main ${ALL_LIBS})
+target_link_libraries(main ${ALL_LIBS} -lm)

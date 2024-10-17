@@ -15,7 +15,7 @@ void handle_glew_error(int code, char *func_name)
     fprintf(stderr, "/!\\ GLEW error %i using %s: %s\n", code, func_name, glewGetErrorString(code));
 }
 
-int get_file_length(const FILE *file)
+int get_file_length(FILE *file)
 {
     fseek(file, 0L, SEEK_END);
     int length = ftell(file);

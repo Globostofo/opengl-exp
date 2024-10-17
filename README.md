@@ -1,6 +1,6 @@
 # Experimentations with OpenGL in C
 
-Just some basic tests with OpenGL using the *C programming language*.  
+Just some basic tests with *GLEW* and *GLFW* using the *C programming language*.  
 Inspired by <https://www.opengl-tutorial.org/beginners-tutorials/>.
 
 ## Linux

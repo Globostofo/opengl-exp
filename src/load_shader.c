@@ -18,7 +18,7 @@ GLuint LoadShaders(const char *vertex_file_path, const char *fragment_file_path)
     char vertex_shader_code[vertex_file_length];
     fread(vertex_shader_code, vertex_file_length, 1, vertex_shader_file);
     fclose(vertex_shader_file);
-    char *vertex_shader_code2 = vertex_shader_code;
+    const GLchar *vertex_shader_code2 = vertex_shader_code;
 
     // Read the Fragment Shader code from the file
     FILE *fragment_shader_file = fopen(fragment_file_path, "r");
@@ -27,7 +27,7 @@ GLuint LoadShaders(const char *vertex_file_path, const char *fragment_file_path)
     char fragment_shader_code[fragment_file_length];
     fread(fragment_shader_code, fragment_file_length, 1, fragment_shader_file);
     fclose(fragment_shader_file);
-    char *fragment_shader_code2 = fragment_shader_code;
+    const GLchar *fragment_shader_code2 = fragment_shader_code;
     
     GLint Result = GL_FALSE;
     int InfoLogLength;

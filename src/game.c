@@ -94,6 +94,9 @@ void play(GLFWwindow *window)
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
+	// Cull triangles which normal is not towards the camera
+	glEnable(GL_CULL_FACE);
+
     GLuint vertexArrayId;
     glGenVertexArrays(1, &vertexArrayId);
     glBindVertexArray(vertexArrayId);

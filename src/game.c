@@ -2,47 +2,47 @@
 
 #include "utils.h"
 #include "load_shader.h"
+#include "controls.h"
 
 #include "game.h"
 
 static const GLfloat g_vertex_buffer_data[] = {
-    -1.0f,-1.0f,-1.0f,
-    -1.0f,-1.0f, 1.0f,
+    -1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f, 1.0f,
     -1.0f, 1.0f, 1.0f,
-    1.0f, 1.0f,-1.0f,
-    -1.0f,-1.0f,-1.0f,
-    -1.0f, 1.0f,-1.0f,
-    1.0f,-1.0f, 1.0f,
-    -1.0f,-1.0f,-1.0f,
-    1.0f,-1.0f,-1.0f,
-    1.0f, 1.0f,-1.0f,
-    1.0f,-1.0f,-1.0f,
-    -1.0f,-1.0f,-1.0f,
-    -1.0f,-1.0f,-1.0f,
+    1.0f, 1.0f, -1.0f,
+    -1.0f, -1.0f, -1.0f,
+    -1.0f, 1.0f, -1.0f,
+    1.0f, -1.0f, 1.0f,
+    -1.0f, -1.0f, -1.0f,
+    1.0f, -1.0f, -1.0f,
+    1.0f, 1.0f, -1.0f,
+    1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f, -1.0f,
     -1.0f, 1.0f, 1.0f,
-    -1.0f, 1.0f,-1.0f,
-    1.0f,-1.0f, 1.0f,
-    -1.0f,-1.0f, 1.0f,
-    -1.0f,-1.0f,-1.0f,
+    -1.0f, 1.0f, -1.0f,
+    1.0f, -1.0f, 1.0f,
+    -1.0f, -1.0f, 1.0f,
+    -1.0f, -1.0f, -1.0f,
     -1.0f, 1.0f, 1.0f,
-    -1.0f,-1.0f, 1.0f,
-    1.0f,-1.0f, 1.0f,
+    -1.0f, -1.0f, 1.0f,
+    1.0f, -1.0f, 1.0f,
     1.0f, 1.0f, 1.0f,
-    1.0f,-1.0f,-1.0f,
-    1.0f, 1.0f,-1.0f,
-    1.0f,-1.0f,-1.0f,
+    1.0f, -1.0f, -1.0f,
+    1.0f, 1.0f, -1.0f,
+    1.0f, -1.0f, -1.0f,
     1.0f, 1.0f, 1.0f,
-    1.0f,-1.0f, 1.0f,
+    1.0f, -1.0f, 1.0f,
     1.0f, 1.0f, 1.0f,
-    1.0f, 1.0f,-1.0f,
-    -1.0f, 1.0f,-1.0f,
+    1.0f, 1.0f, -1.0f,
+    -1.0f, 1.0f, -1.0f,
     1.0f, 1.0f, 1.0f,
-    -1.0f, 1.0f,-1.0f,
+    -1.0f, 1.0f, -1.0f,
     -1.0f, 1.0f, 1.0f,
     1.0f, 1.0f, 1.0f,
     -1.0f, 1.0f, 1.0f,
-    1.0f,-1.0f, 1.0f
-};
+    1.0f, -1.0f, 1.0f};
 
 // Two UV coordinatesfor each vertex. They were created with Blender. You'll learn shortly how to do this yourself.
 static const GLfloat g_uv_buffer_data[] = {
@@ -81,8 +81,7 @@ static const GLfloat g_uv_buffer_data[] = {
     0.0f, 0.667f,
     1.0f, 0.333f,
     0.667f, 0.333f,
-    1.0, 0.667f
-};
+    1.0, 0.667f};
 
 void play(GLFWwindow *window)
 {
@@ -105,34 +104,15 @@ void play(GLFWwindow *window)
     // Get a handle for our "MVP" uniform
     GLuint matrixId = glGetUniformLocation(programId, "MVP");
 
-    // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-    mat4 projection;
-    glm_perspective(glm_rad(45.0f), 4.0f / 3.0f, 0.1f, 100.0f, projection);
-    // Or, for an ortho camera :
-    // glm_ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f, projection); // In world coordinates
-
-    // Camera matrix
-    mat4 view;
-    glm_lookat(
-        (vec3){3, 3, 3}, // Camera is at (4,3,3), in World Space
-        (vec3){0, 0, 0}, // and looks at the origin
-        (vec3){0, 1, 0}, // Head is up (set to 0,-1,0 to look upside-down)
-        view
-    );
-    // Model matrix : an identity matrix (model will be at the origin)
-    mat4 model;
+    mat4 projection, view, model, mvp;
     glm_mat4_identity(model);
-    // Our ModelViewProjection : multiplication of our 3 matrices
-    mat4 mvp;
-    glm_mat4_mul(projection, view, mvp);
-    glm_mat4_mul(mvp, model, mvp); // Remember, matrix multiplication is the other way around
 
     // Load the texture using any two methods
-	//GLuint Texture = loadBMP_custom("uvtemplate.bmp");
-	GLuint texture = load_dds("res/img/uvtemplate.dds");
-	
-	// Get a handle for our "myTextureSampler" uniform
-	GLuint textureId = glGetUniformLocation(programId, "myTextureSampler");
+    // GLuint Texture = loadBMP_custom("uvtemplate.bmp");
+    GLuint texture = load_dds("res/img/uvtemplate.dds");
+
+    // Get a handle for our "myTextureSampler" uniform
+    GLuint textureId = glGetUniformLocation(programId, "myTextureSampler");
 
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
@@ -150,15 +130,20 @@ void play(GLFWwindow *window)
 
         glUseProgram(programId);
 
+        compute_matrix_from_inputs(window, &projection, &view);
+
+        glm_mat4_mul(projection, view, mvp);
+        glm_mat4_mul(mvp, model, mvp); // Remember, matrix multiplication is the other way around
+
         // Send our transformation to the currently bound shader,
         // in the "MVP" uniform
         glUniformMatrix4fv(matrixId, 1, GL_FALSE, &mvp[0][0]);
 
         // Bind our texture in Texture Unit 0
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		// Set our "myTextureSampler" sampler to use Texture Unit 0
-		glUniform1i(textureId, 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        // Set our "myTextureSampler" sampler to use Texture Unit 0
+        glUniform1i(textureId, 0);
 
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -168,18 +153,17 @@ void play(GLFWwindow *window)
             GL_FLOAT,
             GL_FALSE,
             0,
-            (void *) 0
-        );
+            (void *)0);
 
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
         glVertexAttribPointer(
-            1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-            2,                                // size
-            GL_FLOAT,                         // type
-            GL_FALSE,                         // normalized?
-            0,                                // stride
-            (void *) 0                        // array buffer offset
+            1,        // attribute. No particular reason for 1, but must match the layout in the shader.
+            2,        // size
+            GL_FLOAT, // type
+            GL_FALSE, // normalized?
+            0,        // stride
+            (void *)0 // array buffer offset
         );
 
         glDrawArrays(GL_TRIANGLES, 0, 36);
